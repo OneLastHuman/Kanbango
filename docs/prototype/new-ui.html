@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Equal Height Nested Prototype</title>
+    <style>
+        :root {
+            --radius: 21px; /* 你指定的圆角 */
+            --border: 1px solid #000000; /* 你指定的黑边 */
+            --system-font: -apple-system, BlinkMacSystemFont, "SF Pro", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: var(--system-font);
+        }
+
+        /* 外框：看板容器 (Kanban) */
+        .kanban-outer {
+            box-sizing: border-box;
+            width: 90vw;
+            height: 80vh;
+            background: #ffffff;
+            border: var(--border);
+            border-radius: var(--radius);
+            display: flex;
+            overflow: hidden; /* 确保内部元素不超出圆角 */
+            position: relative;
+        }
+
+        /* 左侧看板区域 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            width: 260px; /* 默认宽度 */
+            flex-shrink: 0;
+            background: #fcfcfc;
+            transition: width 0.3s ease, opacity 0.3s ease;
+            overflow: hidden;
+        }
+        .sidebar.collapsed {
+            width: 0;
+            opacity: 0;
+        }
+
+        /* 顶部标题栏（始终显示） */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            gap: 8px;
+        }
+
+        /* Mac 红绿灯 */
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        /* 侧边栏工具按钮 */
+        .sidebar-actions {
+            display: flex;
+            gap: 6px;
+            margin-left: 12px;
+        }
+        .action-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: var(--border);
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #000;
+        }
+
+        /* 看板区域 */
+        .kanban-board {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0 12px;
+            gap: 12px;
+            overflow-y: auto;
+        }
+        .kanban-column {
+            border: 1px dashed #999;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .column-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #eee;
+        }
+        .task-card {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 12px;
+            background: #fff;
+        }
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .task-tag {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #f0f0f0;
+            color: #666;
+        }
+        .task-tag.p0 { background: #ffe0e0; color: #c00; }
+        .task-tag.p1 { background: #fff3e0; color: #f60; }
+        .task-tag.p2 { background: #e0f0ff; color: #06c; }
+
+        /* 拖动手柄：位于两者交界处 */
+        .resizer {
+            width: 0;
+            background: transparent;
+            cursor: col-resize;
+            position: relative;
+            z-index: 10;
+        }
+        .resizer::after {
+            content: "";
+            position: absolute;
+            left: -5px; width: 10px; height: 100%;
+        }
+
+        /* 内部容器：Terminal */
+        .terminal-inner {
+            box-sizing: border-box;
+            flex-grow: 1;
+            height: 100%; /* 关键：高度与外框完全相等 */
+            background: #ffffff;
+            /* 左右留出一点点边距展现“包裹感”，但上下不留 */
+            margin: -1px; /* 抵消外框边框，实现视觉重合 */
+            border: var(--border);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            z-index: 2;
+        }
+
+        /* Terminal Tab 栏 */
+        .terminal-header {
+            height: 48px;
+            border-bottom: var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            justify-content: space-between;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab {
+            padding: 5px 15px;
+            border: var(--border);
+            border-radius: 14px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-close { cursor: pointer; color: #999; }
+
+        .add-btn {
+            width: 26px;
+            height: 26px;
+            border: var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* 内容区域 */
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .placeholder {
+            width: 80%;
+            height: 60%;
+            border: 1px dashed #ccc;
+            border-radius: 12px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="kanban-outer">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <div class="sidebar-actions">
+                <div class="action-btn" title="切换侧边栏">☰</div>
+                <div class="action-btn" title="新建任务">+</div>
+            </div>
+        </div>
+        <div class="kanban-board">
+            <div class="kanban-column">
+                <div class="column-header">P0</div>
+                <div class="task-card">
+                    <div class="task-title">登录页面崩溃</div>
+                    <span class="task-tag p0">bug</span>
+                </div>
+            </div>
+            <div class="kanban-column">
+                <div class="column-header">P1</div>
+                <div class="task-card">
+                    <div class="task-title">实现深色模式</div>
+                    <span class="task-tag p1">feat</span>
+                </div>
+                <div class="task-card">
+                    <div class="task-title">性能优化</div>
+                    <span class="task-tag p1">perf</span>
+                </div>
+            </div>
+            <div class="kanban-column">
+                <div class="column-header">P2</div>
+                <div class="task-card">
+                    <div class="task-title">更新文档</div>
+                    <span class="task-tag p2">docs</span>
+                </div>
+                <div class="task-card">
+                    <div class="task-title">单元测试覆盖</div>
+                    <span class="task-tag p2">test</span>
+                </div>
+                <div class="task-card">
+                    <div class="task-title">代码重构</div>
+                    <span class="task-tag p2">refac</span>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <div class="icon-card" style="width: 20px; height: 20px;"></div>
+        </div>
+    </div>
+
+    <div class="resizer" id="dragHandle"></div>
+
+    <div class="terminal-inner">
+        <div class="terminal-header">
+            <div class="tabs">
+                <div class="tab">tab1 <span class="tab-close">×</span></div>
+                <div class="tab">tab2 <span class="tab-close">×</span></div>
+            </div>
+            <div class="add-btn">＋</div>
+        </div>
+        <div class="content">
+            <div class="placeholder"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const handle = document.getElementById('dragHandle');
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.querySelector('[title="切换侧边栏"]');
+
+    // 切换侧边栏
+    toggleBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('collapsed');
+    });
+
+    handle.addEventListener('mousedown', function(e) {
+        document.addEventListener('mousemove', resize);
+        document.addEventListener('mouseup', stopResize);
+        document.body.style.cursor = 'col-resize';
+    });
+
+    function resize(e) {
+        const containerLeft = sidebar.parentElement.getBoundingClientRect().left;
+        const newWidth = e.clientX - containerLeft;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+        }
+    }
+
+    function stopResize() {
+        document.removeEventListener('mousemove', resize);
+        document.body.style.cursor = 'default';
+    }
+</script>
+
+</body>
+</html>

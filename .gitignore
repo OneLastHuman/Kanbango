@@ -1,0 +1,53 @@
+# Build artifacts
+.build/
+.swiftpm/
+*.o
+*.a
+
+# macOS
+.DS_Store
+*.swp
+*.swo
+*~
+
+# App bundles
+*.app/
+Kanbango.app/
+Kanbango-Release.app/
+kanbango.app/
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad
+DerivedData/
+*.xccheckout
+*.moved-aside
+
+# SPM
+Packages
+
+# PyTorch / Python (看到有 __pycache__)
+__pycache__/
+*.pyc
+*.pyo
+
+# Claude Code 本地状态
+.claude/
+
+# Superpowers
+.superpowers/
+
+# JSONL 日志文件 (来自 ~/.claude/projects/)
+*.jsonl
+
+# Ghostty theme
+ghostty-theme
+
+# Kanban task data (auto-generated)
+.kanban/tasks.json
+
+# 环境/密钥
+.env
+.env.local
+*.pem
