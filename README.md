@@ -14,13 +14,13 @@ A macOS kanban board that embeds [Ghostty](https://ghostty.org) terminals for ma
 
 Drag cards between columns, double-click to edit, or create new tasks with tags and priorities.
 
-<video src="screenshots/task-management.mov" width="960" controls></video>
+<video src="screenshots/task-management.mp4" width="960" controls></video>
 
 ### Session Management
 
 Each task can have multiple Claude Code sessions. Expand a card to view session status (running / idle / need input), resume worktrees, or start new sessions.
 
-<video src="screenshots/session-management.mov" width="960" controls></video>
+<video src="screenshots/session-management.mp4" width="960" controls></video>
 
 ## Features
 
