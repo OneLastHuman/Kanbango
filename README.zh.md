@@ -14,13 +14,13 @@
 
 在列间拖拽卡片排序，双击编辑，或创建带标签和优先级的新任务。
 
-[![任务管理演示](screenshots/screenshot.png)](https://raw.githubusercontent.com/OneLastHuman/Kanbango/main/screenshots/task-management.mp4)
+![任务管理演示](screenshots/task-management.gif)
 
 ### 会话管理
 
 每个任务可管理多个 Claude Code 会话。展开卡片查看会话状态（运行中 / 空闲 / 等待输入），恢复 worktree 或创建新会话。
 
-[![会话管理演示](screenshots/screenshot.png)](https://raw.githubusercontent.com/OneLastHuman/Kanbango/main/screenshots/session-management.mp4)
+![会话管理演示](screenshots/session-management.gif)
 
 ## 功能特性
 
