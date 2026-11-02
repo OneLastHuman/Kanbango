@@ -177,7 +177,7 @@
       <li class="feature">
         <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v10h-17z"/></svg>
         <h3>A board for each project</h3>
-        <p>Point Kanbango at a workspace and it keeps that project's tasks and sessions to itself.</p>
+        <p>Point Kanbango at a workspace and it keeps that project's tasks and terminal tabs separate.</p>
       </li>
       <li class="feature">
         <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3.5v3.5M14 3.5v3.5M10 17v3.5M14 17v3.5M3.5 10h3.5M3.5 14h3.5M17 10h3.5M17 14h3.5"/></svg>
@@ -191,8 +191,8 @@
     <div class="inside-copy">
       <h2 id="inside-title">No WebView.<br>No second window.</h2>
       <p>The terminal is not a screenshot or a browser tab. Kanbango links Ghostty's static library and draws the surface into its own view, beside the board. Keys go straight to the PTY; frames go through Metal.</p>
-      <p>Sessions start in a worktree, so two agents can work on the same project without stepping on each other. Kanbango reads the JSONL files Claude Code already writes, which is how a card knows a session is running, idle, or waiting for input.</p>
-      <p>Tasks live in a JSON file inside your workspace. There is no account and no cloud.</p>
+      <p>Sessions can run in a worktree, so two agents can work on the same project without stepping on each other. Kanbango reads the JSONL files Claude Code already writes, which is how a card knows a session is running, idle, or waiting for input.</p>
+      <p>Tasks live in a JSON file inside your workspace. Kanbango has no account and no server of its own.</p>
     </div>
 
     <dl class="stack">
@@ -202,7 +202,7 @@
       </div>
       <div class="stack-item">
         <dt>Sessions</dt>
-        <dd>Claude Code started in a worktree, resumed by session ID.</dd>
+        <dd>Claude Code started here, resumed by session ID.</dd>
       </div>
       <div class="stack-item">
         <dt>Terminal</dt>
