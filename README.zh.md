@@ -6,6 +6,8 @@
 
 一个 macOS 看板应用，将 [Ghostty](https://ghostty.org) 终端通过 C API 嵌入 SwiftUI，用于管理 Claude Code 会话。
 
+官网：[onelasthuman.github.io/Kanbango](https://onelasthuman.github.io/Kanbango/)
+
 ![主界面](screenshots/screenshot.png)
 
 ## 使用方法

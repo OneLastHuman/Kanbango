@@ -6,6 +6,8 @@
 
 A macOS kanban board that embeds [Ghostty](https://ghostty.org) terminals for managing Claude Code sessions.
 
+Website: [onelasthuman.github.io/Kanbango](https://onelasthuman.github.io/Kanbango/)
+
 ![main-window](screenshots/screenshot.png)
 
 ## Usage
