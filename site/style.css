@@ -40,8 +40,8 @@
   --wait: #f2b53c;
   --review: #b06cff;
   --danger: #ff5c57;
-  --font-ui: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-ui: "Archivo", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "DM Mono", "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", ui-monospace, SFMono-Regular, Menlo, monospace;
   --w: 1180px;
   --gutter: 32px;
 }
@@ -190,6 +190,21 @@ svg {
   text-decoration: none;
 }
 .text-link:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.lang {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 2px;
+  color: var(--muted);
+  font-size: 14px;
+  text-decoration: none;
+}
+.lang:hover {
   color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -777,6 +792,40 @@ h2 {
   font-size: 0.84em;
 }
 
+/* Recordings */
+
+.recordings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.recording {
+  margin: 0;
+}
+
+.recording img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #0d0e0f;
+  border-radius: 6px;
+  background: #0e0e0e;
+}
+
+.recording figcaption {
+  max-width: 46ch;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.recording strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
 /* Inside */
 
 .inside {
@@ -997,6 +1046,32 @@ h2 {
 }
 
 /* Responsive */
+/* Chinese typography */
+
+html[lang^="zh"] h1 {
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+html[lang^="zh"] h2 {
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+html[lang^="zh"] .lede,
+html[lang^="zh"] .section-lead,
+html[lang^="zh"] .feature p,
+html[lang^="zh"] .inside-copy p,
+html[lang^="zh"] .install-block p,
+html[lang^="zh"] .stack dd,
+html[lang^="zh"] .recording figcaption {
+  line-height: 1.75;
+}
+
+html[lang^="zh"] .stack dd {
+  max-width: 40ch;
+}
+
 
 @media (max-width: 1080px) {
   .hero {
@@ -1030,6 +1105,21 @@ h2 {
 @media (max-width: 900px) {
   .features {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .topbar-in {
+    gap: 20px;
+  }
+  .nav {
+    gap: 18px;
+  }
+  .top-actions {
+    gap: 16px;
+  }
+  .recordings-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .recording {
+    max-width: 760px;
   }
   .install-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -1069,6 +1159,10 @@ h2 {
   }
   .text-link {
     display: none;
+  }
+
+  .lang {
+    font-size: 13px;
   }
 
   .top-actions .btn {
